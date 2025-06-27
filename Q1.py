@@ -6,19 +6,27 @@ import os
 # Create output directory
 os.makedirs('images', exist_ok=True)
 
-# Create a synthetic image
-img = np.zeros((100, 100), dtype=np.uint8)
-img[20:50, 20:50] = 100  # Object 1
-img[60:90, 60:90] = 200  # Object 2
+# Create a synthetic image with 3 pixel levels (background, object 1, object 2)
+img = np.zeros((100, 100), dtype=np.uint8) # Background
+# Object 1: Circle
+cv2.circle(img, (35, 35), 15, 128, -1)  # Object 1 as circle
+# Object 2: Square
+img[60:90, 60:90] = 255  # Object 2 as square
+
 
 # Add Gaussian noise
 mean = 0
-sigma = 20
-gauss = np.random.normal(mean, sigma, img.shape).astype(np.int16)
-noisy_img = np.clip(img.astype(np.int16) + gauss, 0, 255).astype(np.uint8)
+stddev = 20
+noise = np.random.normal(mean, stddev, img.shape).astype(np.int16)
+noisy_img = np.clip(img.astype(np.int16) + noise, 0, 255).astype(np.uint8)
 
-# Otsu's thresholding
-_, otsu_thresh = cv2.threshold(noisy_img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+# Optional: Smooth it
+smoothed = cv2.GaussianBlur(noisy_img, (5, 5), 0)
+
+# Apply Otsu's threshold
+_, otsu_thresh = cv2.threshold(smoothed, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
 
 # Save images
 cv2.imwrite('images/original.png', img)
@@ -26,22 +34,19 @@ cv2.imwrite('images/noisy.png', noisy_img)
 cv2.imwrite('images/otsu_threshold.png', otsu_thresh)
 
 # Visualization (optional)
-plt.figure(figsize=(10,4))
-plt.subplot(1,3,1)
-plt.title('Original')
+plt.figure(figsize=(12, 4))
+plt.subplot(1, 3, 1)
+plt.title("Original")
 plt.imshow(img, cmap='gray')
-plt.axis('off')
 
-plt.subplot(1,3,2)
-plt.title('Noisy')
+plt.subplot(1, 3, 2)
+plt.title("Noisy")
 plt.imshow(noisy_img, cmap='gray')
-plt.axis('off')
 
-plt.subplot(1,3,3)
-plt.title('Otsu Threshold')
+plt.subplot(1, 3, 3)
+plt.title("Otsu Result")
 plt.imshow(otsu_thresh, cmap='gray')
-plt.axis('off')
 
 plt.tight_layout()
 plt.savefig('images/otsu_results.png')
-plt.show() 
+plt.show()
