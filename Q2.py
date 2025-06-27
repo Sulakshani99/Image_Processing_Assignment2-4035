@@ -54,12 +54,10 @@ plt.figure(figsize=(8, 4))
 plt.subplot(1, 2, 1)
 plt.title("Original Image")
 plt.imshow(original_img, cmap='gray')
-plt.axis('off')
 
 plt.subplot(1, 2, 2)
 plt.title("Region Grown")
 plt.imshow(region_result, cmap='gray')
-plt.axis('off')
 
 plt.tight_layout()
 plt.savefig('images/region_growing_results.png')
