@@ -9,9 +9,9 @@ os.makedirs('images', exist_ok=True)
 # Create a synthetic image with 3 pixel levels (background, object 1, object 2)
 img = np.zeros((100, 100), dtype=np.uint8) # Background
 # Object 1: Circle
-cv2.circle(img, (35, 35), 15, 128, -1)  # Object 1 as circle
+cv2.circle(img, (35, 35), 15, 128, -1)  
 # Object 2: Square
-img[60:90, 60:90] = 255  # Object 2 as square
+img[60:90, 60:90] = 255  
 
 
 # Add Gaussian noise
