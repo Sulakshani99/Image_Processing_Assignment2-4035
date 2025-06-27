@@ -38,14 +38,17 @@ plt.figure(figsize=(12, 4))
 plt.subplot(1, 3, 1)
 plt.title("Original")
 plt.imshow(img, cmap='gray')
+plt.axis("off")
 
 plt.subplot(1, 3, 2)
 plt.title("Noisy")
 plt.imshow(noisy_img, cmap='gray')
+plt.axis("off")
 
 plt.subplot(1, 3, 3)
 plt.title("Otsu Result")
 plt.imshow(otsu_thresh, cmap='gray')
+plt.axis("off")
 
 plt.tight_layout()
 plt.savefig('images/otsu_results.png')
